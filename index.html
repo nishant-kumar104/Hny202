@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy New Year </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    html, body {
+        margin:0; padding:0;
+        width:100%; height:100%;
+        overflow:hidden;
+        background: #ffffff;
+        font-family: "Poppins", sans-serif;
+    }
+
+    #heart-container {
+        position:absolute;
+        top:0; left:0;
+        width:100%; height:100%;
+        pointer-events:none;
+        z-index: 1; /* Background layer */
+    }
+
+    .pink-heart, .red-border-heart {
+        position:absolute;
+        opacity:0;
+        transition:opacity .5s ease;
+    }
+
+    /* Centers everything in a clean column */
+    #main-content {
+        position: relative;
+        z-index: 10; /* Above hearts, but transparent */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100%;
+    }
+
+    .container-width {
+        width: 90%;
+        max-width: 400px; /* Equal width for GIFs and Text */
+        display: block;
+    }
+
+    #message-text {
+        color: #000000; /* Black text as requested */
+        text-align: center;
+        padding: 20px 0;
+        font-size: 18px;
+        line-height: 1.6;
+        opacity: 0;
+        transition: opacity 2s ease-in-out;
+        background: transparent; /* Transparent background */
+        text-shadow: 1px 1px 2px rgba(255,255,255,0.8); /* Makes text readable over hearts */
+    }
+
+    .gif-frame {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    img {
+        width: 100%;
+        display: block;
+    }
+
+    b { font-weight: 600; font-size: 20px; }
+</style>
+</head>
+
+<body>
+
+<div id="heart-container"></div>
+
+<div id="main-content">
+    <div class="container-width gif-frame">
+        <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmZpZ3F5am96eHpxYmRjbm96eHpxYmRjbm96eHpxYmRjbm96ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l41lTfuxV33YFzH1u/giphy.gif">
+    </div>
+
+    <div class="container-width" id="message-text">
+        this year 2025 was full of struggles for me ,<br>
+        but ur presence made it the most important and beautiful year of my life .<br>
+        Your presence is so so so special for me ....<br>
+        May god bless me to manifest at least 60 more new years with you ..<br><br>
+        I love you so much  ...<br>
+        <b>Happy new year sweetheart </b>
+    </div>
+
+    <div class="container-width gif-frame">
+        <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmZpZ3F5am96eHpxYmRjbm96eHpxYmRjbm96eHpxYmRjbm96ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l41lTfuxV33YFzH1u/giphy.gif">
+    </div>
+</div>
+
+<script>
+let w = window.innerWidth;
+let h = window.innerHeight;
+let container = document.getElementById("heart-container");
+
+let pinkHeartImg = "https://cdn-icons-png.flaticon.com/512/833/833472.png";
+let redHeartImg = "https://cdn-icons-png.flaticon.com/512/2107/2107845.png"; 
+
+let totalPink = 300; 
+let count = 0;
+
+function init() {
+    // 1. Fill background with pink hearts
+    let pinkInterval = setInterval(()=>{
+        let img = document.createElement("img");
+        img.src = pinkHeartImg;
+        img.className = "pink-heart";
+        img.style.width = "18px";
+        img.style.left = Math.random() * (w - 20) + "px";
+        img.style.top  = Math.random() * (h - 20) + "px";
+        container.appendChild(img);
+        setTimeout(()=>{ img.style.opacity = 0.35; }, 50);
+        count++;
+        if(count >= totalPink){
+            clearInterval(pinkInterval);
+            drawBorder();
+        }
+    }, 5);
+}
+
+function drawBorder(){
+    // 2. Create red border
+    let positions = [];
+    let step = 22;
+    for(let x=0; x<w; x+=step) positions.push([x,0]);
+    for(let y=0; y<h; y+=step) positions.push([w-step,y]);
+    for(let x=w-step; x>=0; x-=step) positions.push([x,h-step]);
+    for(let y=h-step; y>=0; y-=step) positions.push([0,y]);
+
+    let i=0;
+    let borderInterval = setInterval(()=>{
+        if(i >= positions.length){
+            clearInterval(borderInterval);
+            document.getElementById("message-text").style.opacity = 1;
+            return;
+        }
+        let pos = positions[i];
+        let img = document.createElement("img");
+        img.src = redHeartImg;
+        img.className = "red-border-heart";
+        img.style.width = "22px";
+        img.style.left = pos[0] + "px";
+        img.style.top  = pos[1] + "px";
+        container.appendChild(img);
+        setTimeout(()=>{ img.style.opacity = 1; }, 20);
+        i++;
+    }, 10);
+}
+
+window.onload = init;
+window.onresize = () => { w = window.innerWidth; h = window.innerHeight; };
+</script>
+
+</body>
+</html>
